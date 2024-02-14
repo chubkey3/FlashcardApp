@@ -6,6 +6,10 @@ import model.FlashcardList;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+inheritance for console printing
+ */
+
 public class FlashcardApp {
 
     private Scanner input;
@@ -23,6 +27,9 @@ public class FlashcardApp {
 
         // test
         flashcardLists.add(new FlashcardList("hello"));
+        flashcardLists.get(0).addFlashcard(new Flashcard("test1_front", "test1_back"));
+        flashcardLists.get(0).addFlashcard(new Flashcard("test2_front", "test2_back"));
+        flashcardLists.get(0).addFlashcard(new Flashcard("test3_front", "test3_back"));
 
         // implemntation on loading flashcardlists from data directory
     }
@@ -56,7 +63,13 @@ public class FlashcardApp {
     }
 
     public void displayOptions() {
-        System.out.println("a for test; q for quit");
+        System.out.println("\nSelect from:");
+        System.out.println("\ta -> add flashcard list");
+        System.out.println("\tf -> add flashcard");
+        System.out.println("\tv -> view flashcard list");
+        System.out.println("\tt -> test flashcard list");
+        System.out.println("\tq -> quit");
+
     }
 
     public void processCommand(String command) {
@@ -84,8 +97,6 @@ public class FlashcardApp {
             default:
                 System.out.println(command + "is not a valid command.");
         }
-
-        //System.out.println("\n"); //readability
 
     }
 
@@ -119,7 +130,15 @@ public class FlashcardApp {
     }
 
     public void test() {
+        for (int i = 0; i < flashcardLists.size(); i++) {
+            System.out.println((i + 1) + ". " + flashcardLists.get(i).getName());
+        }
 
+        System.out.println("Select a list to test");
+
+        int listNum = input.nextInt() - 1;
+
+        flashcardLists.get(listNum).test();
     }
 
     public void viewFlashcardLists() {
