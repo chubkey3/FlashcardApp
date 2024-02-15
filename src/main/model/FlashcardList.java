@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class FlashcardList {
+public class FlashcardList implements java.io.Serializable {
 
     private String name;
-    private int numberOfFlashcards;
     private ArrayList<Flashcard> flashcards;
-    private ArrayList<Flashcard> untestedFlashcards; //idk if this is the play tbh
-    private ArrayList<Flashcard> testedFlashcards;
+    private ArrayList<Flashcard> untestedFlashcards;
     Random rand;
-    Scanner input;
+    transient Scanner input;
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -26,11 +24,9 @@ public class FlashcardList {
 
     public FlashcardList(String name) {
         this.name = name;
-        numberOfFlashcards = 0;
         rand = new Random();
         flashcards = new ArrayList<Flashcard>();
         untestedFlashcards = new ArrayList<Flashcard>();
-        testedFlashcards = new ArrayList<Flashcard>();
         input = new Scanner(System.in);
     }
 
@@ -43,8 +39,6 @@ public class FlashcardList {
 
         Flashcard f = untestedFlashcards.remove(randInt);
 
-        testedFlashcards.add(f);
-
         return f;
     }
 
@@ -56,12 +50,11 @@ public class FlashcardList {
 
     public void reset() {
         untestedFlashcards = new ArrayList<>(flashcards);
-        testedFlashcards = new ArrayList<>();
     }
 
 
     public int getNumberOfFlashcards() {
-        return numberOfFlashcards;
+        return flashcards.size();
     }
 
     public String getName() {

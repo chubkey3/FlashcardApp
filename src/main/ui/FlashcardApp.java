@@ -3,6 +3,7 @@ package ui;
 import model.Flashcard;
 import model.FlashcardList;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,10 +15,13 @@ public class FlashcardApp {
 
     private Scanner input;
     private ArrayList<FlashcardList> flashcardLists;
+    private FileInputStream fileInput;
+    private FileOutputStream fileOutput;
 
     public FlashcardApp() {
         init();
         run();
+
     }
 
     public void init() {
@@ -25,13 +29,7 @@ public class FlashcardApp {
         input.useDelimiter("\n");
         flashcardLists = new ArrayList<FlashcardList>();
 
-        // test
-        flashcardLists.add(new FlashcardList("hello"));
-        flashcardLists.get(0).addFlashcard(new Flashcard("test1_front", "test1_back"));
-        flashcardLists.get(0).addFlashcard(new Flashcard("test2_front", "test2_back"));
-        flashcardLists.get(0).addFlashcard(new Flashcard("test3_front", "test3_back"));
-
-        // implemntation on loading flashcardlists from data directory
+        readFlashcards();
     }
 
     public void run() {
@@ -59,7 +57,41 @@ public class FlashcardApp {
     }
 
     public void saveFlashcards() {
-        // System.out.println(flashcardLists);
+        try {
+            fileOutput = new FileOutputStream("data/test.ser");
+            ObjectOutputStream  objectOutputStream = new ObjectOutputStream(fileOutput);
+
+            objectOutputStream.writeObject(flashcardLists);
+
+            objectOutputStream.close();
+
+            fileOutput.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+        } catch (IOException e) {
+            System.out.println("IO ERROR!");
+        }
+    }
+
+    public void readFlashcards() {
+        ArrayList<FlashcardList> temp;
+
+        try {
+            FileInputStream file = new FileInputStream("data/test.ser");
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            temp = (ArrayList<FlashcardList>)in.readObject();
+
+            in.close();
+            file.close();
+
+            flashcardLists = temp;
+
+        } catch (IOException ex) {
+            System.out.println("IOException is caught");
+        } catch (ClassNotFoundException ex) {
+            System.out.println("ClassNotFoundException is caught");
+        }
     }
 
     public void displayOptions() {
