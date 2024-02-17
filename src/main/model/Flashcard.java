@@ -15,6 +15,8 @@ public class Flashcard implements java.io.Serializable {
         this.back = back;
     }
 
+    // EFFECTS: checks if provided answer matches the actual answer on the Flashcard
+    // check removes whitespace, converts strings to lowercase and checks if they equal
     public boolean checkAnswer(String answer) {
         if (answer.replaceAll("\\s+","").equalsIgnoreCase(back.replaceAll("\\s+",""))) {
             return true;
