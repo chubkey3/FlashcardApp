@@ -20,7 +20,7 @@ also acts as an open-source alternative to popular paid services such as Quizlet
 
 As a user, I want to be able to create a new flashcard and add it to a list of flashcards
 
-As a user, I want to be able to view a list of flashcards of a particular subject
+As a user, I want to be able to view the flashcards in a list of flashcards
 
 As a user, I want to be able to test myself on a subject by randomly seeing flashcards within a list of flashcards
 
