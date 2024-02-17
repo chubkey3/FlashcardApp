@@ -15,6 +15,16 @@ public class FlashcardApp {
     private ArrayList<FlashcardList> flashcardLists;
     private FileOutputStream fileOutput;
 
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
     // EFFECTS: runs flashcard app
     public FlashcardApp() {
         init();
@@ -172,7 +182,9 @@ public class FlashcardApp {
         flashcardLists.get(listNum).addFlashcard(new Flashcard(front, back));
     }
 
-    // EFFECTS: tests specified flashcard list
+    // EFFECTS: prints random flashcards to console until flashcards is empty;
+    // flashcards are printed with front (question) first then after user input, back (answer)
+    // is printed to screen
     public void test() {
         for (int i = 0; i < flashcardLists.size(); i++) {
             System.out.println((i + 1) + ". " + flashcardLists.get(i).getName());
@@ -182,7 +194,33 @@ public class FlashcardApp {
 
         int listNum = input.nextInt() - 1;
 
-        flashcardLists.get(listNum).test();
+        FlashcardList selectedList = flashcardLists.get(listNum);
+
+        Flashcard temp;
+        int questionNum = 1;
+        Scanner input = new Scanner(System.in);
+
+        selectedList.reset();
+
+        System.out.println("TEST FOR " + selectedList.getName().toUpperCase() + "\n");
+
+        while (selectedList.getUntestedFlashcards().size() > 0) {
+            temp = selectedList.getRandomFlashcard();
+
+            System.out.println(ANSI_CYAN + "Q" + questionNum + ". " + temp.getFront() + ANSI_RESET);
+
+            System.out.print("Press ENTER to view answer");
+
+            input.nextLine();
+
+            System.out.println(ANSI_RED + "A" + questionNum + ". " + temp.getBack() + "\n" + ANSI_RESET);
+
+            questionNum++;
+        }
+
+        System.out.println("Press ENTER to finish test");
+
+        input.nextLine();
     }
 
     // EFFECTS: prints flashcards of specific flashcard list to console

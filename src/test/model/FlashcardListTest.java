@@ -74,12 +74,4 @@ class FlashcardListTest {
         assertEquals(testList.getFlashcards(), testList.getUntestedFlashcards());
 
     }
-
-    // NOTE: the following test is omitted as it implements ui that is hard to test
-    @Test
-    void testTest() {
-
-    }
-
-
 }
