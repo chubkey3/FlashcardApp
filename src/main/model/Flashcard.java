@@ -15,6 +15,14 @@ public class Flashcard implements java.io.Serializable {
         this.back = back;
     }
 
+    public boolean checkAnswer(String answer) {
+        if (answer.replaceAll("\\s+","").equalsIgnoreCase(back.replaceAll("\\s+",""))) {
+            return true;
+        }
+
+        return false;
+    }
+
     public String getFront() {
         return front;
     }

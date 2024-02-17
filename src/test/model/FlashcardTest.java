@@ -17,6 +17,12 @@ class FlashcardTest {
     }
 
     @Test
+    void checkAnswerTest() {
+        assertTrue(flashcardTest.checkAnswer("test_back"));
+        assertFalse(flashcardTest.checkAnswer("incorrect_answer"));
+    }
+
+    @Test
     void getFrontTest() {
         assertEquals("test_front", flashcardTest.getFront());
     }
