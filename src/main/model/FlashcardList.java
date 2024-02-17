@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+
+// FlashcardList represents a list of Flashcards able to be tested
 public class FlashcardList implements java.io.Serializable {
 
     private String name;
     private ArrayList<Flashcard> flashcards;
     private ArrayList<Flashcard> untestedFlashcards;
     Random rand;
-    transient Scanner input;
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -22,55 +23,46 @@ public class FlashcardList implements java.io.Serializable {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+    // REQUIRES: name to be non-zero length
+    // EFFECTS: name for flashcard list is set to name
+    // flashcards and untestedFlashcards are initialized to an empty array
     public FlashcardList(String name) {
         this.name = name;
         rand = new Random();
-        flashcards = new ArrayList<Flashcard>();
-        untestedFlashcards = new ArrayList<Flashcard>();
-        input = new Scanner(System.in);
+        flashcards = new ArrayList<>();
+        untestedFlashcards = new ArrayList<>();
     }
 
+    // REQUIRES: f to be well-formed (not null)
+    // MODIFIES: this
+    // EFFECTS: adds new Flashcard to FlashcardList
     public void addFlashcard(Flashcard f) {
         flashcards.add(f);
+        untestedFlashcards.add(f);
     }
 
+    // REQUIRES: untestedFlashcards.size() > 0
+    // EFFECTS: returns random flashcard in list
     public Flashcard getRandomFlashcard() {
         int randInt = rand.nextInt(untestedFlashcards.size());
 
-        Flashcard f = untestedFlashcards.remove(randInt);
-
-        return f;
+        return untestedFlashcards.remove(randInt);
     }
 
-    /*
-    public ArrayList<Flashcard> getFlashcards() {
-        return flashcards
-    }
-    */
-
+    // EFFECTS: sets untestedFlashcards to original list of flashcards for future testing
     public void reset() {
         untestedFlashcards = new ArrayList<>(flashcards);
     }
 
-
-    public int getNumberOfFlashcards() {
-        return flashcards.size();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<Flashcard> getFlashcards() {
-        return flashcards;
-    }
-
-    //?
+    // MODIFIES: this
+    // EFFECTS: prints random flashcards to console until flashcards is empty;
+    // flashcards are printed with front (question) first then after user input, back (answer)
+    // is printed to screen
     public void test() {
-       //return score?
         Flashcard temp;
         int i = 1;
         reset();
+        Scanner input = new Scanner(System.in);
 
         System.out.println("TEST FOR " + name.toUpperCase() + "\n");
 
@@ -91,5 +83,21 @@ public class FlashcardList implements java.io.Serializable {
         System.out.println("Press ENTER to finish test");
 
         input.nextLine();
+    }
+
+    public int getNumberOfFlashcards() {
+        return flashcards.size();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Flashcard> getFlashcards() {
+        return flashcards;
+    }
+
+    public ArrayList<Flashcard> getUntestedFlashcards() {
+        return untestedFlashcards;
     }
 }

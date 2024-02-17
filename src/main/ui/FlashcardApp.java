@@ -7,31 +7,32 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
-inheritance for console printing
- */
 
+// FlashcardApp class represents the flashcard application
 public class FlashcardApp {
 
     private Scanner input;
     private ArrayList<FlashcardList> flashcardLists;
-    private FileInputStream fileInput;
     private FileOutputStream fileOutput;
 
+    // EFFECTS: runs flashcard app
     public FlashcardApp() {
         init();
         run();
-
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes console scanner and reads flashcards from serialized file
     public void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        flashcardLists = new ArrayList<FlashcardList>();
+        flashcardLists = new ArrayList<>();
 
         readFlashcards();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     public void run() {
         String command;
         boolean running = true;
@@ -56,6 +57,7 @@ public class FlashcardApp {
 
     }
 
+    // EFFECTS: saves serialized flashcards field to file
     public void saveFlashcards() {
         try {
             fileOutput = new FileOutputStream("data/test.ser");
@@ -73,6 +75,8 @@ public class FlashcardApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: reads serialized flashcard field from file
     public void readFlashcards() {
         ArrayList<FlashcardList> temp;
 
@@ -94,6 +98,7 @@ public class FlashcardApp {
         }
     }
 
+    // EFFECTS: displays command line options
     public void displayOptions() {
         System.out.println("\nSelect from:");
         System.out.println("\ta -> add flashcard list");
@@ -104,6 +109,8 @@ public class FlashcardApp {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     public void processCommand(String command) {
         /*
 
@@ -132,6 +139,8 @@ public class FlashcardApp {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds flashcard list
     public void addFlashcardList() {
         System.out.println("Enter name of flashcard list");
 
@@ -140,6 +149,8 @@ public class FlashcardApp {
         flashcardLists.add(f);
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds flashcard to specific flashcard list
     public void addFlashcard() {
         for (int i = 0; i < flashcardLists.size(); i++) {
             System.out.println((i + 1) + ". " + flashcardLists.get(i).getName());
@@ -161,6 +172,7 @@ public class FlashcardApp {
         flashcardLists.get(listNum).addFlashcard(new Flashcard(front, back));
     }
 
+    // EFFECTS: tests specified flashcard list
     public void test() {
         for (int i = 0; i < flashcardLists.size(); i++) {
             System.out.println((i + 1) + ". " + flashcardLists.get(i).getName());
@@ -173,6 +185,7 @@ public class FlashcardApp {
         flashcardLists.get(listNum).test();
     }
 
+    // EFFECTS: prints flashcards of specific flashcard list to console
     public void viewFlashcardLists() {
         for (int i = 0; i < flashcardLists.size(); i++) {
             System.out.println((i + 1) + ". " + flashcardLists.get(i).getName());
