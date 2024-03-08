@@ -1,12 +1,14 @@
 package model;
 
+import persistence.Writable;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
-
 
 // FlashcardList represents a list of Flashcards able to be tested
-public class FlashcardList implements java.io.Serializable {
+public class FlashcardList implements Writable {
 
     private String name;
     private ArrayList<Flashcard> flashcards;
@@ -58,5 +60,24 @@ public class FlashcardList implements java.io.Serializable {
 
     public ArrayList<Flashcard> getUntestedFlashcards() {
         return untestedFlashcards;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("flashcards", thingiesToJson());
+        return json;
+    }
+
+    // EFFECTS: returns flashcards in this flashcard list as a JSON array
+    private JSONArray thingiesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Flashcard f : flashcards) {
+            jsonArray.put(f.toJson());
+        }
+
+        return jsonArray;
     }
 }

@@ -1,0 +1,13 @@
+{
+    "name": "Sample Flashcard List",
+    "flashcards": [
+        {
+            "back": "bye",
+            "front": "hi"
+        },
+        {
+            "back": "fiejifj",
+            "front": "jfiej"
+        }
+    ]
+}

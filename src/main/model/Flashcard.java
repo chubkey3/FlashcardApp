@@ -1,9 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
 
 // Flashcard represents a single flashcard with a prompt or question on the front
 // and an answer or definition on the back
-public class Flashcard implements java.io.Serializable {
+public class Flashcard implements Writable {
 
     private final String front;
     private final String back;
@@ -31,5 +33,13 @@ public class Flashcard implements java.io.Serializable {
 
     public String getBack() {
         return back;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("front", front);
+        json.put("back", back);
+        return json;
     }
 }
