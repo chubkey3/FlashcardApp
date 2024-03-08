@@ -25,3 +25,8 @@ As a user, I want to be able to view the flashcards in a list of flashcards
 As a user, I want to be able to test myself on a subject by randomly seeing flashcards within a list of flashcards
 
 As a user, I want to be able to save a collection of flashcards and be able to view them at a later time
+
+PHASE 2
+
+As a user, I want the option of saving flashcard collections to a file
+As a user, I want the option of reloading flashcard collections from a file and having the ability to test myself on them

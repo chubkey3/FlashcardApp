@@ -1,0 +1,13 @@
+{
+    "name": "My work room",
+    "flashcards": [
+        {
+            "back": "bye1",
+            "front": "hi1"
+        },
+        {
+            "back": "bye2",
+            "front": "hi2"
+        }
+    ]
+}
