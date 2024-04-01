@@ -3,11 +3,27 @@
     "flashcards": [
         {
             "back": "bye",
-            "front": "hi"
+            "front": "hello"
         },
         {
-            "back": "fiejifj",
-            "front": "jfiej"
+            "back": "bye2",
+            "front": "hello2"
+        },
+        {
+            "back": "bye3",
+            "front": "hello3"
+        },
+        {
+            "back": "bye4",
+            "front": "hello4"
+        },
+        {
+            "back": "f",
+            "front": "f"
+        },
+        {
+            "back": "ff",
+            "front": "ff"
         }
     ]
 }

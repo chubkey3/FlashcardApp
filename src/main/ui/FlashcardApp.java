@@ -4,15 +4,31 @@ import model.Flashcard;
 import model.FlashcardList;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.tabs.AddTab;
+import ui.tabs.SaveAndLoadTab;
+import ui.tabs.TestTab;
+import ui.tabs.ViewTab;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 // FlashcardApp class represents the flashcard application
-public class FlashcardApp {
+public class FlashcardApp extends JFrame {
 
     private static final String JSON_STORE = "./data/flashcards.json";
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+
+    public static final int VIEW_TAB_INDEX = 0;
+    public static final int ADD_TAB_INDEX = 1;
+    public static final int TEST_TAB_INDEX = 2;
+    public static final int SAVE_AND_LOAD_TAB_INDEX = 3;
 
     private Scanner input;
     private FlashcardList flashcardList;
@@ -20,14 +36,64 @@ public class FlashcardApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_CYAN = "\u001B[36m";
+    private ViewTab viewTab;
+    private AddTab addTab;
+    private TestTab testTab;
+    private SaveAndLoadTab saveAndLoadTab;
+
+    private JTabbedPane sidebar;
 
     // EFFECTS: runs flashcard app
     public FlashcardApp() {
-        init();
-        run();
+        super("Flashcard App");
+
+        flashcardList = new FlashcardList("Sample Flashcard List");
+
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        sidebar = new JTabbedPane();
+        sidebar.setTabPlacement(JTabbedPane.LEFT);
+
+        loadTabs();
+        add(sidebar);
+
+        setVisible(true);
+    }
+
+    // EFFECTS: returns flashcards in flashcardList
+    public ArrayList<Flashcard> getFlashcards() {
+        if (flashcardList == null) {
+            return new ArrayList<Flashcard>();
+        }
+
+        return flashcardList.getFlashcards();
+    }
+
+    // EFFECTS: resets test flashcards
+    public void resetFlashcards() {
+        flashcardList.reset();
+    }
+
+    // EFFECTS: initializes tabs in GUI
+    // MODIFIES: this
+    public void loadTabs() {
+        viewTab = new ViewTab(this);
+        addTab = new AddTab(this);
+        testTab = new TestTab(this);
+        saveAndLoadTab = new SaveAndLoadTab(this);
+
+        sidebar.add(viewTab, VIEW_TAB_INDEX);
+        sidebar.setTitleAt(VIEW_TAB_INDEX, "View");
+        sidebar.add(addTab, ADD_TAB_INDEX);
+        sidebar.setTitleAt(ADD_TAB_INDEX, "Add");
+        sidebar.add(testTab, TEST_TAB_INDEX);
+        sidebar.setTitleAt(TEST_TAB_INDEX, "Test");
+        sidebar.add(saveAndLoadTab, SAVE_AND_LOAD_TAB_INDEX);
+        sidebar.setTitleAt(SAVE_AND_LOAD_TAB_INDEX, "Save/Load");
     }
 
     // MODIFIES: this
@@ -83,6 +149,7 @@ public class FlashcardApp {
         try {
             flashcardList = jsonReader.read();
             System.out.println("Loaded " + flashcardList.getName() + " from " + JSON_STORE);
+            viewTab.updateList();
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
@@ -109,7 +176,7 @@ public class FlashcardApp {
                 test();
                 break;
             case "a":
-                addFlashcard();
+                //addFlashcard();
                 break;
             case "v":
                 viewFlashcardLists();
@@ -128,18 +195,16 @@ public class FlashcardApp {
 
     // MODIFIES: this
     // EFFECTS: adds flashcard to specific flashcard list
-    public void addFlashcard() {
-
-        String front;
-        String back;
-
-        System.out.println("Enter front text on flashcard");
-        front = input.next();
-
-        System.out.println("Enter back text on flashcard");
-        back = input.next();
+    public void addFlashcard(String front, String back) {
 
         flashcardList.addFlashcard(new Flashcard(front, back));
+
+        viewTab.updateList();
+    }
+
+    // EFFECTS: returns random flashcard from flashcardList
+    public Flashcard getRandomFlashcard() {
+        return flashcardList.getRandomFlashcard();
     }
 
     // EFFECTS: prints random flashcards to console until flashcards is empty;
