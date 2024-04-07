@@ -17,7 +17,7 @@ class FlashcardListTest {
     void beforeEach() {
         testList = new FlashcardList("test flashcard list");
         flashcardTest = new Flashcard("test_front", "test_back");
-        flashcardTest2 = new Flashcard("test_front", "test_back");
+        flashcardTest2 = new Flashcard("test_front2", "test_back2");
     }
 
     @Test
@@ -73,5 +73,29 @@ class FlashcardListTest {
         assertEquals(1, testList.getUntestedFlashcards().size());
         assertEquals(testList.getFlashcards(), testList.getUntestedFlashcards());
 
+    }
+
+    @Test
+    void removeTest() {
+        testList.addFlashcard(flashcardTest);
+        testList.addFlashcard(flashcardTest2);
+
+        assertEquals(2, testList.getFlashcards().size());
+        assertEquals(flashcardTest, testList.getFlashcards().get(0));
+        assertEquals(flashcardTest2, testList.getFlashcards().get(1));
+
+        testList.removeFlashcards(flashcardTest.getFront());
+
+        assertEquals(1, testList.getFlashcards().size());
+        assertEquals(flashcardTest2, testList.getFlashcards().get(0));
+
+        testList.removeFlashcards(flashcardTest.getFront());
+
+        assertEquals(1, testList.getFlashcards().size());
+        assertEquals(flashcardTest2, testList.getFlashcards().get(0));
+
+        testList.removeFlashcards(flashcardTest2.getFront());
+
+        assertEquals(0, testList.getFlashcards().size());
     }
 }

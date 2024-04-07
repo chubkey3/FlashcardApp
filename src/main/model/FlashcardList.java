@@ -31,6 +31,8 @@ public class FlashcardList implements Writable {
     public void addFlashcard(Flashcard f) {
         flashcards.add(f);
         untestedFlashcards.add(f);
+
+        EventLog.getInstance().logEvent(new Event("Added flashcard to flashcard list"));
     }
 
     // REQUIRES: untestedFlashcards.size() > 0
@@ -38,12 +40,27 @@ public class FlashcardList implements Writable {
     public Flashcard getRandomFlashcard() {
         int randInt = rand.nextInt(untestedFlashcards.size());
 
+        EventLog.getInstance().logEvent(new Event("Random flashcard chosen"));
+
         return untestedFlashcards.remove(randInt);
     }
 
     // EFFECTS: sets untestedFlashcards to original list of flashcards for future testing
     public void reset() {
         untestedFlashcards = new ArrayList<>(flashcards);
+
+        EventLog.getInstance().logEvent(new Event("New flashcard test instance started"));
+    }
+
+    public void removeFlashcards(String flashcard) {
+
+        for (int i = 0; i < flashcards.size(); i++) {
+            if (flashcards.get(i).getFront().equals(flashcard)) {
+                flashcards.remove(i);
+            }
+        }
+
+        EventLog.getInstance().logEvent(new Event("Removed flashcard from flashcard list"));
     }
 
     public int getNumberOfFlashcards() {
@@ -67,6 +84,9 @@ public class FlashcardList implements Writable {
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("flashcards", thingiesToJson());
+
+        EventLog.getInstance().logEvent(new Event("Flashcard parsed into JSON"));
+
         return json;
     }
 
@@ -77,6 +97,8 @@ public class FlashcardList implements Writable {
         for (Flashcard f : flashcards) {
             jsonArray.put(f.toJson());
         }
+
+        EventLog.getInstance().logEvent(new Event("Flashcards parsed into JSON"));
 
         return jsonArray;
     }

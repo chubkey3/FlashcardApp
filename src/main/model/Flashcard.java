@@ -21,8 +21,11 @@ public class Flashcard implements Writable {
     // check removes whitespace, converts strings to lowercase and checks if they equal
     public boolean checkAnswer(String answer) {
         if (answer.replaceAll("\\s+","").equalsIgnoreCase(back.replaceAll("\\s+",""))) {
+            EventLog.getInstance().logEvent(new Event("Correctly answered '" + answer + "' to " + "'" + front + "'"));
             return true;
         }
+
+        EventLog.getInstance().logEvent(new Event("Incorrectly answered '" + answer + "' to " + "'" + front + "'"));
 
         return false;
     }
