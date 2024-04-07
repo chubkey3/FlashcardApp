@@ -59,3 +59,28 @@ an image of a cat with its thumbs down will appear signifying an incorrect answe
 
 To save and load data, you can switch to the Save/Load tab and click either the "Save" button to save the current flashcard state
 in memory or click "Load" to load the saved flashcard state into the current flashcard state.
+
+PHASE 4: Task 2
+
+Sample of Events
+
+Sun Apr 07 14:39:43 PDT 2024
+Added flashcard to flashcard list
+Sun Apr 07 14:39:54 PDT 2024
+Added flashcard to flashcard list
+Sun Apr 07 14:39:59 PDT 2024
+Added flashcard to flashcard list
+Sun Apr 07 14:40:01 PDT 2024
+Removed flashcard from flashcard list
+Sun Apr 07 14:40:05 PDT 2024
+New flashcard test instance started
+Sun Apr 07 14:40:05 PDT 2024
+Random flashcard chosen
+Sun Apr 07 14:40:10 PDT 2024
+Incorrectly answered '13.6 billion years' to 'how old is the universe'
+Sun Apr 07 14:40:13 PDT 2024
+Correctly answered '13.7 billion years' to 'how old is the universe'
+Sun Apr 07 14:40:13 PDT 2024
+Random flashcard chosen
+Sun Apr 07 14:40:16 PDT 2024
+Correctly answered 'chips' to 'potato ___'

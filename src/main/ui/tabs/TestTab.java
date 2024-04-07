@@ -114,7 +114,7 @@ public class TestTab extends Tab {
             imgTest.removeAll();
         }
 
-        if (a.equals(current.getBack())) {
+        if (current.checkAnswer(a)) {
             imageAsLabel = new JLabel(correctImg);
             imgTest.add(imageAsLabel);
 

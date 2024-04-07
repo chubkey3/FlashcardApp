@@ -1,16 +1,16 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.Flashcard;
 import model.FlashcardList;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.tabs.AddTab;
-import ui.tabs.SaveAndLoadTab;
-import ui.tabs.TestTab;
-import ui.tabs.ViewTab;
+import ui.tabs.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -27,8 +27,9 @@ public class FlashcardApp extends JFrame {
 
     public static final int VIEW_TAB_INDEX = 0;
     public static final int ADD_TAB_INDEX = 1;
-    public static final int TEST_TAB_INDEX = 2;
-    public static final int SAVE_AND_LOAD_TAB_INDEX = 3;
+    public static final int REMOVE_TAB_INDEX = 2;
+    public static final int TEST_TAB_INDEX = 3;
+    public static final int SAVE_AND_LOAD_TAB_INDEX = 4;
 
     private Scanner input;
     private FlashcardList flashcardList;
@@ -40,6 +41,7 @@ public class FlashcardApp extends JFrame {
     private AddTab addTab;
     private TestTab testTab;
     private SaveAndLoadTab saveAndLoadTab;
+    private RemoveTab removeTab;
 
     private JTabbedPane sidebar;
 
@@ -62,6 +64,18 @@ public class FlashcardApp extends JFrame {
         add(sidebar);
 
         setVisible(true);
+
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+
+                for (Event ev : EventLog.getInstance()) {
+                    System.out.println(ev);
+                }
+            }
+        });
     }
 
     // EFFECTS: returns flashcards in flashcardList
@@ -85,11 +99,14 @@ public class FlashcardApp extends JFrame {
         addTab = new AddTab(this);
         testTab = new TestTab(this);
         saveAndLoadTab = new SaveAndLoadTab(this);
+        removeTab = new RemoveTab(this);
 
         sidebar.add(viewTab, VIEW_TAB_INDEX);
         sidebar.setTitleAt(VIEW_TAB_INDEX, "View");
         sidebar.add(addTab, ADD_TAB_INDEX);
         sidebar.setTitleAt(ADD_TAB_INDEX, "Add");
+        sidebar.add(removeTab, REMOVE_TAB_INDEX);
+        sidebar.setTitleAt(REMOVE_TAB_INDEX, "Remove");
         sidebar.add(testTab, TEST_TAB_INDEX);
         sidebar.setTitleAt(TEST_TAB_INDEX, "Test");
         sidebar.add(saveAndLoadTab, SAVE_AND_LOAD_TAB_INDEX);
@@ -149,7 +166,7 @@ public class FlashcardApp extends JFrame {
         try {
             flashcardList = jsonReader.read();
             System.out.println("Loaded " + flashcardList.getName() + " from " + JSON_STORE);
-            viewTab.updateList();
+            update();
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
@@ -199,7 +216,18 @@ public class FlashcardApp extends JFrame {
 
         flashcardList.addFlashcard(new Flashcard(front, back));
 
+        update();
+    }
+
+    public void removeFlashcard(String flashcard) {
+        flashcardList.removeFlashcards(flashcard);
+
+        update();
+    }
+
+    public void update() {
         viewTab.updateList();
+        removeTab.updateList();
     }
 
     // EFFECTS: returns random flashcard from flashcardList
@@ -247,4 +275,5 @@ public class FlashcardApp extends JFrame {
         }
 
     }
+
 }
