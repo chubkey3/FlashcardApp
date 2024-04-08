@@ -29,6 +29,8 @@ public class EventLog implements Iterable<Event> {
      * (Singleton Design Pattern)
      * @return  instance of EventLog
      */
+    // EFFECTS: returns singleton instance of EventLog
+    // MODIFIES: this
     public static EventLog getInstance() {
         if (theLog == null) {
             theLog = new EventLog();
@@ -41,6 +43,9 @@ public class EventLog implements Iterable<Event> {
      * Adds an event to the event log.
      * @param e the event to be added
      */
+
+    // EFFECTS: logs event to event list
+    // MODIFIES: this
     public void logEvent(Event e) {
         events.add(e);
     }
@@ -48,6 +53,8 @@ public class EventLog implements Iterable<Event> {
     /**
      * Clears the event log and logs the event.
      */
+    // EFFECTS: clears events from event list
+    // MODIFIES: this
     public void clear() {
         events.clear();
         logEvent(new Event("Event log cleared."));

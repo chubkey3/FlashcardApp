@@ -84,3 +84,16 @@ Sun Apr 07 14:40:13 PDT 2024
 Random flashcard chosen
 Sun Apr 07 14:40:16 PDT 2024
 Correctly answered 'chips' to 'potato ___'
+
+PHASE 4: Task 3
+
+One refactor I can do is to group my tab classes into another class that encompasses all the tabs into a neat container.
+This prevents clutter and increases readability in my FlashcardApp class as it no longer has to manage all the tabs in addition
+to its original functionality. This also improves the cohesion of my FlashcardApp class as it has a more narrow rage of responsibilities.
+
+Right now, my FlashcardApp class deals with a lot and I think reducing its responsibilities would be beneficial. One
+way I can accomplish this is by splitting up the actual UI and flashcard functionality into separate classes. I think
+just a standalone class for UI components minus all functionality would be much clean and concise to read. I don't currently
+know how I would approach this but some ideas would be making FlashcardApp hold another class called FlashcardManager that
+deals with all the functionality of flashcards. Another method would be using inheritance to give the parent flashcard functionality
+and the child UI functionality which again further simplifies the FlashcardApp class and improves its overall cohesion. 

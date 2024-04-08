@@ -9,11 +9,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+// Remove Tab for JTabbedPane
 public class RemoveTab extends Tab {
 
     private JComboBox select;
     private JButton removeButton;
 
+    // EFFECTS: initializes tab for removing flashcards
     public RemoveTab(FlashcardApp controller) {
         super(controller);
 
@@ -38,6 +40,7 @@ public class RemoveTab extends Tab {
         this.add(p);
     }
 
+    // EFFECTS: updates JComboBox to display up to date flashcards in flashcard list
     public void updateList() {
         select.removeAllItems();
 
